@@ -1,0 +1,3 @@
+Antanas Antanaitis 10 10 10 4 
+Jonas Jonaitis 8 10 10 6 
+Ona Onaite 5 10 10 5 2 
