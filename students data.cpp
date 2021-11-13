@@ -1,8 +1,12 @@
 #include <vector>
-#include <vector>
 #include <numeric>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 #include "Student.h"
+#include<iostream>
+#include <stdexcept>
+using namespace std;
 
 
 void fillVector(vector<Student>&);
@@ -15,6 +19,10 @@ double average(double);
 
 double median(double);
 
+void readFromFile();
+
+bool compareAlphabet(Student& a, Student& b);
+
 
 
 
@@ -23,10 +31,15 @@ int main() {
 	vector<Student> myClass;
 
 	fillVector(myClass);
-	printVector(myClass);
+	sort(myClass.begin(), myClass.end(), compareAlphabet);
+	if (!myClass.empty()) {
+		printVector(myClass);
+	}
 
 	return 0;
 }
+
+
 
 void fillVector(vector<Student>& newMyClass) {
 
@@ -34,43 +47,63 @@ void fillVector(vector<Student>& newMyClass) {
 	string lastname;
 	double grade=0;
 	int choose=1;
+	int choice = 0;
 	
-
-	cout << "How many students you want to create ?";
-	int classSize;
-	cin >> classSize;
-
-	for (int i = 0; i < classSize; i++) {
-		cout << "Enter Student name: ";
-		cin >> name;
-		cout << "Enter Student lastname: ";
-		cin >> lastname;
-		
-		cout << "1-Calculate with average" << endl;
-		cout << "2-Calculate with median" << endl;
-		cin >> choose;
-		if (choose == 1) {
-			Student newStudent(name, lastname, average(grade));
-			newMyClass.push_back(newStudent);
+	cout << "*******************************\n";
+	cout << " 1 - Read from a file.\n";
+	cout << " 2 - Read not from a file.\n";
+	cout << " Enter your choice and press return: ";
+	cin >> choice;
+	try {
+		if (choice >= 3 || choice <= 0) {
+			throw invalid_argument("Input can only be 1 or 2");
+		}
+		else if (choice == 1) {
+			readFromFile();
 		}
 		else {
-			Student newStudent(name, lastname, median(grade));
-			newMyClass.push_back(newStudent);
+			cout << "How many students you want to create ?";
+			int classSize;
+			cin >> classSize;
+
+			for (int i = 0; i < classSize; i++) {
+
+				cout << "Enter Student name: ";
+				cin >> name;
+				cout << "Enter Student lastname: ";
+				cin >> lastname;
+
+				cout << "1-Calculate with average" << endl;
+				cout << "2-Calculate with median" << endl;
+				cin >> choose;
+
+				if (choose == 1) {
+					Student newStudent(name, lastname, average(grade));
+					newMyClass.push_back(newStudent);
+
+				}
+				else {
+					Student newStudent(name, lastname, median(grade));
+					newMyClass.push_back(newStudent);
+				}
+				cout << endl;
+			}
 		}
-		cout << endl;
 	}
+	catch (const invalid_argument& e) {
+		cout << e.what() << endl;
+	}
+	
 	cout << endl;
 }
 
 void printVector(const vector<Student>& newMyClass) {
-
 	unsigned int size = newMyClass.size();
 	cout << "Firstname " << "Last name " << "Final grade(avg)/Final grade(median) " << endl;
 	cout << "------------------------------------------" << endl;
 	for (unsigned int i = 0; i < size; i++) {
 		cout << newMyClass[i].getName()<< "      " << newMyClass[i].getLastName() << "      " << newMyClass[i].getGrade() << endl;
 	}
-
 }
 
 double average(double grade) {
@@ -130,6 +163,8 @@ double median(double grade) {
 	cout << "2-Enter grades by yourself." << endl;
 	cin >> random;
 	
+	
+	
 	if (random == 1) {
 		cout << "How many grades?" << endl;
 		cin >> marks_quantity;
@@ -184,3 +219,86 @@ double median(double grade) {
 	return grade;
 }
 
+void readFromFile() {
+	// Create a text string, which is used to output the text file
+	string myText;
+	string name;
+
+	// Read from the text file
+	ifstream file("Studentai.txt");
+
+	// Use a while loop together with the getline() function to read the file line by line
+	try {
+		if (!file) {
+			throw invalid_argument("File does not exist.");
+		}
+	}
+	catch (const invalid_argument& e) {
+		cout << e.what() << endl;
+	}
+	if (file.is_open())
+	{
+		vector<string> myArray;
+		string line;
+
+		//push every line of txt
+		while (getline(file, line))
+		{
+			myArray.push_back(line);
+		}
+		string word;
+		string studentName;
+		stringstream ss;
+		cout << "Firstname " << "Last name " << "Final grade(avg)/Final grade(median) " << endl;
+		cout << "------------------------------------------" << endl;
+		for (const string& line_of_file : myArray) {
+
+			float num = 0;
+			int totalMarks = 0;
+
+			for (size_t i = 0; i < line_of_file.length(); i++)
+			{
+				if (line_of_file[i] != ' ') {
+					word += line_of_file[i];
+				}
+
+				if (line_of_file[i] == ' ') {
+					if (word.length() <= 3) {
+						num++;
+
+						stringstream s(word);
+						int mark = 0;
+						s >> mark;
+
+						totalMarks += mark;
+
+						word = " ";
+					}
+
+					if (word.length() > 3) {
+						studentName += word;
+						
+						cout << studentName;
+
+						word = " ";
+						studentName = " ";
+					}
+
+				}
+
+			}
+			float ats = totalMarks / num;
+		cout <<"         "<< ats << endl;
+		}
+		
+	}
+
+	// Close the file
+	file.close();
+}
+
+
+bool compareAlphabet(Student& a, Student& b)
+{
+	return a.getLastName() < b.getLastName();
+}
