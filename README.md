@@ -24,3 +24,6 @@ Failai programoje yra išskaidyti į antarštinį failą, kuriame aprašyta yra 
 
 Taip pat panaudotos išimčių valdymas(pvz. tikrinant ar failas, iš kurio norime duomenis nuskaityti išvis egzistuoja)
               
+NAUDOJIMOSI INSTRUKCIJA
+
+Norint pasinaudoti programa, reiktų atsisiųsti į kompą norimos versijos releas'ą, išsiarchyvuoti ir susikurti naują projektą. Kadangi failus nežinau kodėl iš pat pradžių kėliau rankiniu būdu ir po vieną, o ne visą projektą, tai todėl programos paleidimas bus šiek tiek sunkesnis. Kai susikūrėte naują projektą, reiktų prie header files įkelti student.h failą bei Student.txt failą. O prie Source files ištrinti naujo projekto main failą ir įkelti Student.cpp bei students data.cpp. Ir paleidus, turėtų veikti.
