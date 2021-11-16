@@ -7,6 +7,15 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+#include <chrono>
+#include <thread>
+using namespace std::chrono;
 using namespace std;
 
 
@@ -46,5 +55,25 @@ private:
 	double newGrade;
 
 };
+void fillVector(vector<Student>&);
+
+void printVector(const vector<Student>&);
+//print vector - prints the if of all students
+//@param const vector<Student>& - students in class
+
+double average(double);
+
+double median(double);
+
+void readFromFile(vector<Student>&);
+
+bool compareAlphabet(Student& a, Student& b);
+
+void createFiles(vector<Student>&);
+
+void readDataFromFiles(vector<Student>&);
+
+void sortStudentsInFiles(vector<Student>&);
+
 #endif
 
