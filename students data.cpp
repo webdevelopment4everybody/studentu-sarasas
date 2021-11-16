@@ -1,50 +1,19 @@
-#include <vector>
-#include <numeric>
-#include <algorithm>
-#include <fstream>
-#include <sstream>
 #include "Student.h"
-#include<iostream>
-#include <stdexcept>
-#include <chrono>
-#include <thread>
-using namespace std;
-using namespace std::chrono;
-
-
-void fillVector(vector<Student>&);
-
-void printVector(const vector<Student>&);
-//print vector - prints the if of all students
-//@param const vector<Student>& - students in class
-
-double average(double);
-
-double median(double);
-
-void readFromFile();
-
-bool compareAlphabet(Student& a, Student& b);
-
-void generateFiles(vector<Student>&);
-
-void speedTest(vector<Student>&);
 
 int main() {
 
 	vector<Student> myClass;
-	generateFiles(myClass);
+	//createFiles(myClass);
+	//readDataFromFiles(myClass);
+	//sortStudentsInFiles(myClass);
 	fillVector(myClass);
 	sort(myClass.begin(), myClass.end(), compareAlphabet);
 	if (!myClass.empty()) {
 		printVector(myClass);
 	}
-	
 
 	return 0;
 }
-
-
 
 void fillVector(vector<Student>& newMyClass) {
 
@@ -64,7 +33,7 @@ void fillVector(vector<Student>& newMyClass) {
 			throw invalid_argument("Input can only be 1 or 2");
 		}
 		else if (choice == 1) {
-			readFromFile();
+			readFromFile(newMyClass);
 		}
 		else {
 			cout << "How many students you want to create ?";
@@ -225,11 +194,7 @@ double median(double grade) {
 	return grade;
 }
 
-void readFromFile() {
-	// Create a text string, which is used to output the text file
-	string myText;
-	string name;
-
+void readFromFile(vector<Student>& newMyClass) {
 	// Read from the text file
 	ifstream file("Studentai.txt");
 
@@ -242,61 +207,20 @@ void readFromFile() {
 	catch (const invalid_argument& e) {
 		cout << e.what() << endl;
 	}
-	if (file.is_open())
-	{
-		vector<string> myArray;
-		string line;
-
-		//push every line of txt
-		while (getline(file, line))
-		{
-			myArray.push_back(line);
-		}
-		string word;
-		string studentName;
-		stringstream ss;
-		cout << "Firstname " << "Last name " << "Final grade(avg)/Final grade(median) " << endl;
-		cout << "------------------------------------------" << endl;
-		for (const string& line_of_file : myArray) {
-
-			float num = 0;
-			int totalMarks = 0;
-
-			for (size_t i = 0; i < line_of_file.length(); i++)
-			{
-				if (line_of_file[i] != ' ') {
-					word += line_of_file[i];
-				}
-
-				if (line_of_file[i] == ' ') {
-					if (word.length() <= 3) {
-						num++;
-
-						stringstream s(word);
-						int mark = 0;
-						s >> mark;
-
-						totalMarks += mark;
-
-						word = " ";
-					}
-
-					if (word.length() > 3) {
-						studentName += word;
-						
-						cout << studentName;
-
-						word = " ";
-						studentName = " ";
-					}
-
-				}
-
+	if (file.is_open()) {
+		string name;
+		string lastname;
+		double score[3];
+		while (file >> name >> lastname) {
+			int suma = 0;
+			for (int n = 0; n < 3; n++) {
+				file >> score[n];
+				suma += score[n];
 			}
-			float ats = totalMarks / num;
-		cout <<"         "<< ats << endl;
+			suma /= 3;
+			Student newStudent(name, lastname, suma);
+			newMyClass.push_back(newStudent);
 		}
-		
 	}
 
 	// Close the file
@@ -309,22 +233,16 @@ bool compareAlphabet(Student& a, Student& b)
 }
 
 
-void generateFiles(vector<Student>& newMyClass) {
-
-	
-
+void createFiles(vector<Student>& newMyClass) {
+	auto start = high_resolution_clock::now();
 	int files = 5;
-	vector <string> minksti;
-	vector<string> kieti;
-	for (int i = 1; i <= files; i++)
-	{
-		
-		fstream file;
-		file.open(to_string(i) + ".txt", ios::out | ios::in);
-		int count = 1,count2 = 1,count3 = 1, count4 = 1, count5 = 1;
+	for (int i = 1; i <= files; i++){
+		ofstream file(to_string(i) + ".txt");
+		//file.open(to_string(i) + ".txt", ios::out | ios::in);
+		int count = 1, count2 = 1, count3 = 1, count4 = 1, count5 = 1;
 		if (i == 1) {
 			for (int j = 0; j < 10000;j++) {
-				file << "Vardas" <<count<< "   " << "Pavarde"<<count<< "   " << (rand() % 10) + 1 << "\n";
+				file << "Vardas" << count << "   " << "Pavarde" << count << "   " << (rand() % 10) + 1 << "\n";
 				count++;
 			}
 
@@ -353,53 +271,59 @@ void generateFiles(vector<Student>& newMyClass) {
 				count5++;
 			}
 		}
-			
-			ifstream myfile(to_string(i) + ".txt");
-			string name;
-			string lastname;
-			int score;
-			
-			ofstream Vargsiukai("Vargsiukai" + to_string(i) + ".txt");
-			ofstream Kietekai("Kietekai" + to_string(i) + ".txt");
-			auto start = high_resolution_clock::now();
-				while (myfile >> name >> lastname >> score) {
-					if (score < 5) {
-						/*minksti.push_back(name);
-						minksti.push_back(lastname);
-						minksti.push_back(to_string(score));*/
-					
-						Vargsiukai << name << " " << lastname << " " << score << endl;
-						
-
-					}else {
-						/*kieti.push_back(name);
-						kieti.push_back(lastname);
-						kieti.push_back(to_string(score));*/
-						Kietekai << name << " " << lastname << " " << score << endl;
-					}
-
-					Student newStudent(name, lastname, score);
-					newMyClass.push_back(newStudent);
-				}
-				auto stop = high_resolution_clock::now();
-				auto duration = duration_cast<microseconds>(stop - start);
-				cout << "Duomenu nuskaitymas is failo  uztruko : " << duration.count() << " microseconds" << endl;
-			/*Kietekai.close();
-			Vargsiukai.close();*/
-		
-		
-		file.close();
+		//file.close();
 	}
-	
-}
-
-void speedTest(vector<Student>& newMyClass)
-{
-	auto start = high_resolution_clock::now();
-
-
-
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds>(stop - start);
-	cout << "Failo k?rimas užtruko: " << duration.count()<<endl;
+	cout<< "Failu sukurimas  uztruko : " << duration.count() << " microseconds" << endl;
 }
+
+void readDataFromFiles(vector<Student>& newMyClass) {
+	auto start = high_resolution_clock::now();
+	
+	int files = 5;
+	for (int i = 1; i <= files; i++) {
+		ifstream myfile(to_string(i) + ".txt");
+		string name;
+		string lastname;
+		int score;			
+		ofstream Vargsiukai("Vargsiukai" + to_string(i) + ".txt");
+		ofstream Kietekai("Kietekai" + to_string(i) + ".txt");
+			while (myfile >> name >> lastname >> score) {
+			}
+	}
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+	cout << "Failu duomenu nuskaitymas  uztruko : " << duration.count() << " microseconds" << endl;
+}
+
+void sortStudentsInFiles(vector<Student>& newMyClass) {
+	auto start = high_resolution_clock::now();
+
+	int files = 5;
+	vector<string>kieti;
+	vector<string>minksti;
+	for (int i = 1; i <= files; i++) {
+		ifstream myfile(to_string(i) + ".txt");
+		string name;
+		string lastname;
+		int score;
+		ofstream Vargsiukai("Vargsiukai" + to_string(i) + ".txt");
+		ofstream Kietekai("Kietekai" + to_string(i) + ".txt");
+		while (myfile >> name >> lastname >> score) {
+			
+			if (score < 5) {
+				Vargsiukai << name << " " << lastname << " " << score << endl;
+
+			}
+			else {
+				Kietekai << name << " " << lastname << " " << score << endl;
+			}
+		}
+		
+	}
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+	cout << "Studentu surusiavimas ir isvedimas uztruko : " << duration.count() << " microseconds" << endl;
+}
+
