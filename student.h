@@ -15,6 +15,7 @@
 #include <stdexcept>
 #include <chrono>
 #include <thread>
+#include<deque>
 using namespace std::chrono;
 using namespace std;
 
@@ -55,9 +56,9 @@ private:
 	double newGrade;
 
 };
-void fillVector(vector<Student>&);
+void fillVector(deque<Student>&);
 
-void printVector(const vector<Student>&);
+void printVector(const deque<Student>&);
 //print vector - prints the if of all students
 //@param const vector<Student>& - students in class
 
@@ -65,15 +66,15 @@ double average(double);
 
 double median(double);
 
-void readFromFile(vector<Student>&);
+void readFromFile(deque<Student>&);
 
 bool compareAlphabet(Student& a, Student& b);
 
-void createFiles(vector<Student>&);
+void createFiles(deque<Student>&);
 
-void readDataFromFiles(vector<Student>&);
+void readDataFromFiles(deque<Student>&);
 
-void sortStudentsInFiles(vector<Student>&);
+void sortStudentsInFiles(deque<Student>&);
 
 #endif
 
