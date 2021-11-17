@@ -1,33 +1,80 @@
-#include "Student.h"
+#pragma once
 
-Student::Student() {
-	newGrade = 0;
+//header
 
-}
-Student::Student(string name,string lastname, double grade) {
-	newName = name;
-	newLastName = lastname;
-	newGrade = grade;
-	
-}
-Student::~Student() {
+#ifndef STUDENT_H
+#define STUDENT_H
 
-}
-string Student::getName() const{
-	return newName;
-}
-string Student::getLastName() const {
-	return newLastName;
-}
-double Student::getGrade() const {
-	return newGrade;
-}
-void Student::setName(string name) {
-	newName = name;
-}
-void Student::setLastName(string lastname) {
-	newLastName = lastname;
-}
-void Student::setGrade(double grade) {
-	newGrade = grade;
-}
+#include <iostream>
+#include <string>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+#include <chrono>
+#include <thread>
+#include<deque>
+using namespace std::chrono;
+using namespace std;
+
+
+class Student {
+public:
+	//default constructor
+	Student();
+
+	//overload constructor
+	Student(string, string,double);
+
+	//destructor
+	~Student();
+
+	//accessor functions
+	string getName() const;
+	//getName
+	//@return string- name of student
+	string getLastName() const;
+
+	double getGrade() const;
+	//getGrade
+	//@return int - grade student
+
+	//Mutator function
+	void setName(string);
+	//setName
+	//@param string - name of student
+	void setLastName(string);
+	void setGrade(double);
+	//setGrade
+	//@param char - grade of students
+
+private:
+	string newName;
+	string newLastName;
+	double newGrade;
+
+};
+void fillVector(deque<Student>&);
+
+void printVector(const deque<Student>&);
+//print vector - prints the if of all students
+//@param const vector<Student>& - students in class
+
+double average(double);
+
+double median(double);
+
+void readFromFile(deque<Student>&);
+
+bool compareAlphabet(Student& a, Student& b);
+
+void createFiles(deque<Student>&);
+
+void readDataFromFiles(deque<Student>&);
+
+void sortStudentsInFiles(deque<Student>&);
+
+#endif
+
