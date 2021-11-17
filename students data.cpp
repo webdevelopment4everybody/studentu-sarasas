@@ -1,8 +1,9 @@
 #include "Student.h"
+#include <deque>
 
 int main() {
 
-	vector<Student> myClass;
+	deque<Student> myClass;
 	//createFiles(myClass);
 	//readDataFromFiles(myClass);
 	//sortStudentsInFiles(myClass);
@@ -15,7 +16,7 @@ int main() {
 	return 0;
 }
 
-void fillVector(vector<Student>& newMyClass) {
+void fillVector(deque<Student>& newMyClass) {
 
 	string name;
 	string lastname;
@@ -71,7 +72,7 @@ void fillVector(vector<Student>& newMyClass) {
 	cout << endl;
 }
 
-void printVector(const vector<Student>& newMyClass) {
+void printVector(const deque<Student>& newMyClass) {
 	unsigned int size = newMyClass.size();
 	cout << size;
 	cout << "Firstname " << "Last name " << "Final grade(avg)/Final grade(median) " << endl;
@@ -194,7 +195,7 @@ double median(double grade) {
 	return grade;
 }
 
-void readFromFile(vector<Student>& newMyClass) {
+void readFromFile(deque<Student>& newMyClass) {
 	// Read from the text file
 	ifstream file("Studentai.txt");
 
@@ -233,7 +234,7 @@ bool compareAlphabet(Student& a, Student& b)
 }
 
 
-void createFiles(vector<Student>& newMyClass) {
+void createFiles(deque<Student>& newMyClass) {
 	auto start = high_resolution_clock::now();
 	int files = 5;
 	for (int i = 1; i <= files; i++){
@@ -278,7 +279,7 @@ void createFiles(vector<Student>& newMyClass) {
 	cout<< "Failu sukurimas  uztruko : " << duration.count() << " microseconds" << endl;
 }
 
-void readDataFromFiles(vector<Student>& newMyClass) {
+void readDataFromFiles(deque<Student>& newMyClass) {
 	auto start = high_resolution_clock::now();
 	
 	int files = 5;
@@ -297,7 +298,7 @@ void readDataFromFiles(vector<Student>& newMyClass) {
 	cout << "Failu duomenu nuskaitymas  uztruko : " << duration.count() << " microseconds" << endl;
 }
 
-void sortStudentsInFiles(vector<Student>& newMyClass) {
+void sortStudentsInFiles(deque<Student>& newMyClass) {
 	auto start = high_resolution_clock::now();
 
 	int files = 5;
