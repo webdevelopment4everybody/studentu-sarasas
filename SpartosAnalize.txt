@@ -1,0 +1,30 @@
+SPARTOS ANALIZE NAUDOJANT VEKTOR:
+
+Failu sukurimas  uztruko : 120102954 microseconds
+
+Duomenu nuskaitymas i faila uztruko : 118630916 microseconds
+
+Studentu surusiavimas ir isvedimas i faila uztruko : 287886323 microseconds
+
+Daugiausiai uztruko studentu surusiavimas ir isvedimas i faila. Maziausiai uztruko duomenu nuskaitymas i faila.
+
+=================================================================================================
+LIST:
+
+Failu nuskaitymas naudojant list uztruko: 114328490 microseconds.
+
+Studentu surusiavimas ir isvedimas uztruko : 270841857 microseconds
+
+==================================================================================================
+
+DEQUE:
+Failu nuskaitymas  uztruko : 130250733 microseconds
+Studentu surusiavimas ir isvedimas uztruko : 281718212 microseconds
+
+LIST VEIKIA GREICIAUSIAI
+
+
+
+
+
+
